@@ -1,0 +1,22 @@
+.authPage {
+  height: 100vh;
+  min-height: 450px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .paper {
+    padding: 1.5rem;
+    text-align: center;
+
+    .title {
+      padding-bottom: 1.5rem;
+    }
+
+    .link {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
