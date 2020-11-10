@@ -5,17 +5,25 @@ import * as Yup from 'yup'
 
 import styles from '../../components/AuthPage/style.module.scss'
 
-const SignInSchema = Yup.object().shape({
+const SignUpSchema = Yup.object().shape({
+  username: Yup.string()
+    .min(3, 'Too Short!')
+    .max(15, 'Too Long!')
+    .required('Required'),
   email: Yup.string().email('Invalid email').required('Required'),
-  password: Yup.string().required('Required'),
+  password: Yup.string()
+    .min(6, 'Password must be at least 6 characters')
+    .required('Required'),
 })
 
 export interface FormValues {
+  username: string
   email: string
   password: string
 }
 
 const initialValues: FormValues = {
+  username: '',
   email: '',
   password: '',
 }
@@ -27,10 +35,10 @@ interface Props {
   ) => void
 }
 
-const SignInForm: React.FC<Props> = ({ handleSubmit }) => {
+const SignUpForm: React.FC<Props> = ({ handleSubmit }) => {
   const formik = useFormik({
     initialValues: initialValues,
-    validationSchema: SignInSchema,
+    validationSchema: SignUpSchema,
     onSubmit: handleSubmit,
   })
 
@@ -38,6 +46,19 @@ const SignInForm: React.FC<Props> = ({ handleSubmit }) => {
 
   return (
     <form onSubmit={formik.handleSubmit} className={styles.form}>
+      <TextField
+        variant="outlined"
+        id="username"
+        label="Username"
+        required
+        onBlur={handleBlur}
+        error={!!(errors['username'] && touched['username'])}
+        helperText={
+          errors.username && touched.username ? errors.username : null
+        }
+        onChange={handleChange}
+        value={values.username}
+      />
       <TextField
         variant="outlined"
         id="email"
@@ -70,10 +91,10 @@ const SignInForm: React.FC<Props> = ({ handleSubmit }) => {
         className={styles.submit}
         disabled={formik.isSubmitting}
       >
-        Sign in
+        Sign up
       </Button>
     </form>
   )
 }
 
-export default SignInForm
+export default SignUpForm
