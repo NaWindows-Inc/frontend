@@ -4,15 +4,19 @@ import Routes from '../../constants/routes'
 import SignUpForm, { FormValues } from './SignUpForm'
 import { FormikHelpers } from 'formik'
 import withAuthorization from '../../hocs'
+import { useDispatch } from 'react-redux'
+import { authUser } from '../../redux/auth/actions'
 
 const SignUp = () => {
+  const dispatch = useDispatch()
+
   const handleSubmit = (
     values: FormValues,
     formikHelpers: FormikHelpers<FormValues>,
   ) => {
     setTimeout(() => {
       alert(JSON.stringify(values, null, 2))
-      formikHelpers.setSubmitting(false)
+      dispatch(authUser())
     }, 3000)
   }
 
