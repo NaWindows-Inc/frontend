@@ -3,6 +3,7 @@ import { FormikHelpers } from 'formik'
 import AuthPage from '../../components/AuthPage'
 import Routes from '../../constants/routes'
 import SignInForm, { FormValues } from './SignInForm'
+import withAuthorization from '../../hocs'
 
 const SignIn = () => {
   const handleSubmit = (
@@ -26,4 +27,6 @@ const SignIn = () => {
   )
 }
 
-export default SignIn
+const condition = (isAuth: boolean) => isAuth
+
+export default withAuthorization(condition, Routes.DASHBOARD)(SignIn)
