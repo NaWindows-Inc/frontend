@@ -17,6 +17,7 @@ const SignIn = () => {
     setTimeout(() => {
       alert(JSON.stringify(values, null, 2))
       dispatch(authUser())
+      localStorage.setItem('token', 'sometokenvalue')
     }, 3000)
   }
 

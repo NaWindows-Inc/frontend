@@ -17,6 +17,7 @@ const Header = () => {
 
   const onSignOutClick = () => {
     dispatch(signOutUser())
+    localStorage.removeItem('token')
   }
 
   return (
