@@ -10,7 +10,7 @@ const getAuthResponse = async (
   type: 'signup' | 'login',
   values: SignUpFormValues | SignInFormValues,
 ) => {
-  const response = await fetch(`${API_URL}/signup`, {
+  const response = await fetch(`${API_URL}/${type}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
