@@ -6,19 +6,19 @@ import SignInForm, { FormValues } from './SignInForm'
 import withAuthorization from '../../hocs'
 import { useDispatch } from 'react-redux'
 import { authUser } from '../../redux/auth/actions'
+import { signIn } from '../../services/authAPI'
 
 const SignIn = () => {
   const dispatch = useDispatch()
 
-  const handleSubmit = (
+  const handleSubmit = async (
     values: FormValues,
     formikHelpers: FormikHelpers<FormValues>,
   ) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2))
-      dispatch(authUser())
-      localStorage.setItem('token', 'sometokenvalue')
-    }, 3000)
+    const response = await signIn(values)
+    console.log(response)
+    dispatch(authUser())
+    localStorage.setItem('token', 'sometokenvalue')
   }
 
   return (

@@ -8,14 +8,13 @@ import { signUp } from '../../services/authAPI'
 import { SignUpFormValues } from '../../typings'
 
 const SignUp = () => {
-  const handleSubmit = (
+  const handleSubmit = async (
     values: SignUpFormValues,
     formikHelpers: FormikHelpers<SignUpFormValues>,
   ) => {
-    setTimeout(async () => {
-      const response = await signUp(values)
-      console.log(response.json())
-    }, 3000)
+    const response = await signUp(values)
+    console.log(response)
+    formikHelpers.setSubmitting(false)
   }
 
   return (
