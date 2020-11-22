@@ -5,3 +5,12 @@ declare module 'react-redux' {
 }
 
 export { RootState }
+
+export interface SignInFormValues {
+  email: string
+  password: string
+}
+
+export interface SignUpFormValues extends SignInFormValues {
+  username: string
+}

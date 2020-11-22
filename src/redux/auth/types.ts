@@ -5,6 +5,7 @@ export enum ActionType {
 
 interface AuthUser {
   type: typeof ActionType.AUTH_USER
+  username: string
 }
 
 interface SignOutUser {
@@ -17,4 +18,5 @@ export type Action = AuthUser | SignOutUser
 
 export interface AuthState {
   isAuth: boolean
+  username: string | null
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormikHelpers, useFormik } from 'formik'
 import { Button, TextField } from '@material-ui/core'
+import { SignUpFormValues } from '../../typings'
 import * as Yup from 'yup'
 
 import styles from '../../components/AuthPage/style.module.scss'
@@ -16,13 +17,7 @@ const SignUpSchema = Yup.object().shape({
     .required('Required'),
 })
 
-export interface FormValues {
-  username: string
-  email: string
-  password: string
-}
-
-const initialValues: FormValues = {
+const initialValues: SignUpFormValues = {
   username: '',
   email: '',
   password: '',
@@ -30,8 +25,8 @@ const initialValues: FormValues = {
 
 interface Props {
   handleSubmit: (
-    values: FormValues,
-    formikHelpers: FormikHelpers<FormValues>,
+    values: SignUpFormValues,
+    formikHelpers: FormikHelpers<SignUpFormValues>,
   ) => void
 }
 

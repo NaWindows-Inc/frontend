@@ -1,32 +1,62 @@
-import React from 'react'
+import React, { useState } from 'react'
 import AuthPage from '../../components/AuthPage'
 import Routes from '../../constants/routes'
-import SignUpForm, { FormValues } from './SignUpForm'
+import SignUpForm from './SignUpForm'
 import { FormikHelpers } from 'formik'
 import withAuthorization from '../../hocs'
-import { useDispatch } from 'react-redux'
-import { authUser } from '../../redux/auth/actions'
+import { signUp } from '../../services/authAPI'
+import { SignUpFormValues } from '../../typings'
 
 const SignUp = () => {
-  const dispatch = useDispatch()
+  const [open, setOpen] = useState(false)
+  const [severity, setSeverity] = useState<'success' | 'error'>('error')
+  const [message, setMessage] = useState('')
 
-  const handleSubmit = (
-    values: FormValues,
-    formikHelpers: FormikHelpers<FormValues>,
+  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setOpen(false)
+  }
+
+  const handleSubmit = async (
+    values: SignUpFormValues,
+    formikHelpers: FormikHelpers<SignUpFormValues>,
   ) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2))
-      dispatch(authUser())
-    }, 3000)
+    const response = await signUp(values)
+    if (response.success) {
+      setSeverity('success')
+      setMessage(response.message)
+      setOpen(true)
+    } else {
+      setSeverity('error')
+      setMessage(response.errorMessage)
+      setOpen(true)
+    }
+    formikHelpers.setSubmitting(false)
   }
 
   return (
     <AuthPage
       title="Sign Up"
+      noTitleStyles={severity === 'success'}
       linkTo={Routes.SIGN_IN}
-      linkMessage="Already have an account? Sign in"
+      linkMessage={
+        severity === 'success'
+          ? 'Go to sign in'
+          : 'Already have an account? Sign in'
+      }
+      alertSeverity={severity}
+      alertOpen={open}
+      alertMessage={message}
+      alertHandleClose={handleClose}
     >
-      <SignUpForm handleSubmit={handleSubmit} />
+      {severity === 'success' ? (
+        <p>You have been successfully registered</p>
+      ) : (
+        <SignUpForm handleSubmit={handleSubmit} />
+      )}
     </AuthPage>
   )
 }
