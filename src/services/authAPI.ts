@@ -1,10 +1,30 @@
 import { SignUpFormValues, SignInFormValues } from '../typings'
 import { API_URL } from '../config'
 
-interface SignUpResponse {
-  status: number
-  data: { error: string | null; response: string | null }
+interface ResponseBase {
+  success: true | false
 }
+
+interface SignUpSuccessResponse extends ResponseBase {
+  success: true
+  message: string
+}
+
+interface SignInSuccessResponse extends ResponseBase {
+  success: true
+  token: string
+  username: string
+  email: string
+}
+
+interface ErrorResponse extends ResponseBase {
+  success: false
+  errorCode: number
+  errorMessage: string
+}
+
+type SignUpResponse = SignUpSuccessResponse | ErrorResponse
+type SignInResponse = SignInSuccessResponse | ErrorResponse
 
 const getAuthResponse = async (
   type: 'signup' | 'login',
@@ -25,14 +45,38 @@ const signUp = async (values: SignUpFormValues): Promise<SignUpResponse> => {
   const response = await getAuthResponse('signup', values)
   const data = await response.json()
 
-  return { status: response.status, data: data }
+  if (response.status === 201) {
+    return {
+      success: true,
+      message: data.response,
+    }
+  } else {
+    return {
+      success: false,
+      errorCode: response.status,
+      errorMessage: data.error,
+    }
+  }
 }
 
-const signIn = async (values: SignInFormValues) => {
+const signIn = async (values: SignInFormValues): Promise<SignInResponse> => {
   const response = await getAuthResponse('login', values)
   const data = await response.json()
 
-  return { status: response.status, data: data }
+  if (response.status === 201) {
+    return {
+      success: true,
+      token: data.token,
+      username: data.username,
+      email: data.email,
+    }
+  } else {
+    return {
+      success: false,
+      errorCode: response.status,
+      errorMessage: data.error,
+    }
+  }
 }
 
 const logout = (token: string) => {
