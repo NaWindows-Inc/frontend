@@ -5,7 +5,7 @@ import LayoutPreloader from '../components/LayoutPreloader'
 import Routes from '../constants/routes'
 import { Dashboard, SignIn, SignUp } from '../pages'
 import { initializeApp } from '../redux/app/actions'
-import { authUser } from '../redux/auth/actions'
+import { signOutUser } from '../redux/auth/actions'
 import './App.scss'
 
 const App = () => {
@@ -14,7 +14,9 @@ const App = () => {
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
-      dispatch(authUser())
+      // TODO: check token
+    } else {
+      dispatch(signOutUser())
     }
 
     if (!initialized) {

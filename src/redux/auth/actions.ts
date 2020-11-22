@@ -1,7 +1,8 @@
 import { ActionType, Action } from './types'
 
-const authUser = (): Action => ({
+const authUser = (username: string): Action => ({
   type: ActionType.AUTH_USER,
+  username
 })
 
 const signOutUser = (): Action => ({
