@@ -6,6 +6,7 @@ import Routes from '../constants/routes'
 import { Dashboard, SignIn, SignUp } from '../pages'
 import { initializeApp } from '../redux/app/actions'
 import { signOutUser } from '../redux/auth/actions'
+import { checkToken } from '../services/authAPI'
 import './App.scss'
 
 const App = () => {
@@ -13,17 +14,24 @@ const App = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-      // TODO: check token
-    } else {
-      dispatch(signOutUser())
+    const effect = async () => {
+      const token = localStorage.getItem('token')
+
+      if (token) {
+        const isValid = await checkToken(token)
+        if (!isValid) {
+          dispatch(signOutUser())
+        }
+      } else {
+        dispatch(signOutUser())
+      }
+
+      if (!initialized) {
+        dispatch(initializeApp())
+      }
     }
 
-    if (!initialized) {
-      dispatch(initializeApp())
-    }
-
-    return () => {}
+    effect()
   }, [dispatch, initialized])
 
   if (!initialized) {

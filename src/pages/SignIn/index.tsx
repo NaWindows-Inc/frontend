@@ -26,7 +26,6 @@ const SignIn = () => {
     formikHelpers: FormikHelpers<FormValues>,
   ) => {
     const response = await signIn(values)
-    console.log(response)
     if (response.success) {
       dispatch(authUser(response.username))
       localStorage.setItem('token', response.token)

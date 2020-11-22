@@ -12,12 +12,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { signOutUser } from '../../redux/auth/actions'
 
 import styles from './style.module.scss'
+import { logout } from '../../services/authAPI'
 
 const Header = () => {
   const dispatch = useDispatch()
   const username = useSelector((state) => state.auth.username)
 
-  const onSignOutClick = () => {
+  const onSignOutClick = async () => {
+    const token = localStorage.getItem('token')
+    await logout(token ? token : '')
     dispatch(signOutUser())
     localStorage.removeItem('token')
   }

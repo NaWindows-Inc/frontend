@@ -88,4 +88,19 @@ const logout = (token: string) => {
   })
 }
 
-export { signUp, signIn, logout }
+const checkToken = async (token: string) => {
+  const response = await fetch(`${API_URL}/hello`, {
+    headers: {
+      'x-access-token': token,
+    },
+  })
+  const data = await response.json()
+
+  if (data.valid) {
+    return true
+  } else {
+    return false
+  }
+}
+
+export { signUp, signIn, logout, checkToken }
