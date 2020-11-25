@@ -3,7 +3,9 @@
   padding: 2rem;
   text-align: left;
 
-  & > * {
+
+  .divider {
+    margin-top: 1rem;
     margin-bottom: 1rem;
   }
 }
