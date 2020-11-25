@@ -9,29 +9,34 @@ import { getData } from '../../services/dataAPI'
 import { BleData } from '../../typings'
 
 import styles from './style.module.scss'
+import { Pagination } from '@material-ui/lab'
 
 const COUNT = 5
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [data, setData] = useState<BleData[]>([])
+  const [pagesCount, setPagesCount] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1)
 
   const token = localStorage.getItem('token')
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true)
-      const result = await getData(token!, COUNT, 1)
+      const result = await getData(token!, COUNT, currentPage)
 
+      // TODO: error handle
       console.log(result)
       setData(result.items)
-      setTimeout(() => setIsLoading(false), 1000)
+      setPagesCount(Math.floor(result.totalCount / COUNT))
+      setTimeout(() => setIsLoading(false), 500)
     }
 
     fetchData()
 
     return () => {}
-  }, [token])
+  }, [token, currentPage])
 
   const mappedData = data.map((item, index) => (
     <div key={index.toString()}>
@@ -65,6 +70,13 @@ const Dashboard = () => {
           </Typography>
           <Divider className={styles.divider} />
           {isLoading ? skeleton : mappedData}
+          <div className={styles.pagination}>
+            <Pagination
+              count={pagesCount}
+              variant="outlined"
+              onChange={(event, page) => setCurrentPage(page)}
+            />
+          </div>
         </Paper>
       </Container>
     </div>

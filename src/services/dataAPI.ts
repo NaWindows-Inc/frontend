@@ -4,7 +4,7 @@ import { API_URL } from '../config'
 interface GetDataResponse {
   error: string | null
   items: Array<BleData>
-  totalCounts: number
+  totalCount: number
 }
 
 const getData = async (
