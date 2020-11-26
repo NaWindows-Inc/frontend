@@ -10,10 +10,12 @@ import { BleData } from '../../typings'
 
 import styles from './style.module.scss'
 import { Pagination } from '@material-ui/lab'
+import ToggleCount from '../../components/ToggleCount'
 
 const COUNT = 5
 
 const Dashboard = () => {
+  const [count, setCount] = useState(COUNT)
   const [isLoading, setIsLoading] = useState(true)
   const [data, setData] = useState<BleData[]>([])
   const [pagesCount, setPagesCount] = useState(1)
@@ -24,19 +26,19 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true)
-      const result = await getData(token!, COUNT, currentPage)
+      const result = await getData(token!, count, currentPage)
 
       // TODO: error handle
       console.log(result)
       setData(result.items)
-      setPagesCount(Math.floor(result.totalCount / COUNT))
-      setTimeout(() => setIsLoading(false), 500)
+      setPagesCount(Math.ceil(result.totalCount / count))
+      setIsLoading(false)
     }
 
     fetchData()
 
     return () => {}
-  }, [token, currentPage])
+  }, [token, currentPage, count])
 
   const mappedData = data.map((item, index) => (
     <div key={index.toString()}>
@@ -51,7 +53,7 @@ const Dashboard = () => {
 
   const skeleton: JSX.Element[] = []
 
-  for (let i = 0; i < COUNT; i++) {
+  for (let i = 0; i < count; i++) {
     skeleton.push(
       <div key={i.toString()}>
         <DeviceSkeleton />
@@ -60,14 +62,28 @@ const Dashboard = () => {
     )
   }
 
+  const onCountChange = (newCount: number) => {
+    setCount(newCount)
+    setCurrentPage(1)
+  }
+
   return (
     <div>
       <Header />
       <Container maxWidth="md">
         <Paper className={styles.paper} elevation={3}>
-          <Typography variant="h4" component="h2" className={styles.title}>
-            Devices
-          </Typography>
+          <div className={styles.headingRow}>
+            <Typography variant="h4" component="h2" className={styles.title}>
+              Devices
+            </Typography>
+            <ToggleCount
+              countValue={count}
+              firstValue={5}
+              secondValue={10}
+              thirdValue={15}
+              handleChangeCount={onCountChange}
+            />
+          </div>
           <Divider className={styles.divider} />
           {isLoading ? skeleton : mappedData}
           <div className={styles.pagination}>

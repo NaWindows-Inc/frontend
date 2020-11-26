@@ -3,6 +3,12 @@
   padding: 2rem;
   text-align: left;
 
+  .headingRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   .divider {
     margin-top: 1rem;
     margin-bottom: 1rem;
