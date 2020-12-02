@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 import LayoutPreloader from '../components/LayoutPreloader'
 import Routes from '../constants/routes'
-import { Dashboard, SignIn, SignUp } from '../pages'
+import { Dashboard, SignIn, SignUp, Chart } from '../pages'
 import { initializeApp } from '../redux/app/actions'
 import { signOutUser } from '../redux/auth/actions'
 import { checkToken } from '../services/authAPI'
@@ -42,6 +42,7 @@ const App = () => {
     <div className="App">
       <Switch>
         <Route exact path={Routes.DASHBOARD} component={Dashboard} />
+        <Route exact path={Routes.CHART} component={Chart} />
         <Route exact path={Routes.SIGN_IN} component={SignIn} />
         <Route exact path={Routes.SIGN_UP} component={SignUp} />
       </Switch>
