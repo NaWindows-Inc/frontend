@@ -19,6 +19,8 @@ import { toggleTheme } from '../../redux/app/actions'
 import { logout } from '../../services/authAPI'
 
 import styles from './style.module.scss'
+import { Link } from 'react-router-dom'
+import Routes from '../../constants/routes'
 
 const Header = () => {
   const dispatch = useDispatch()
@@ -52,7 +54,9 @@ const Header = () => {
             }}
           >
             <div>
-              <Typography variant="h6">BLE Scanner</Typography>
+              <Link to={Routes.DASHBOARD}>
+                <Typography variant="h6">BLE Scanner</Typography>
+              </Link>
             </div>
 
             <div className={styles.userPart}>
