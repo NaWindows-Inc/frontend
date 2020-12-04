@@ -30,7 +30,7 @@ const getAuthResponse = async (
   type: 'signup' | 'login',
   values: SignUpFormValues | SignInFormValues,
 ) => {
-  const response = await fetch(`${API_URL}/${type}`, {
+  const response = await fetch(`${API_URL}/user/${type}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
@@ -64,11 +64,14 @@ const signIn = async (values: SignInFormValues): Promise<SignInResponse> => {
   const data = await response.json()
 
   if (response.status === 201) {
+    const response = data.response
+    const { token, username, email } = response
+
     return {
       success: true,
-      token: data.token,
-      username: data.username,
-      email: data.email,
+      token,
+      username,
+      email,
     }
   } else {
     return {
@@ -80,7 +83,7 @@ const signIn = async (values: SignInFormValues): Promise<SignInResponse> => {
 }
 
 const logout = (token: string) => {
-  return fetch(`${API_URL}/logout`, {
+  return fetch(`${API_URL}/user/logout`, {
     method: 'DELETE',
     headers: {
       'x-access-token': token,
