@@ -86,6 +86,7 @@ const Dashboard = () => {
         {isLoading ? skeleton : mappedData}
         <div className={styles.pagination}>
           <Pagination
+            page={currentPage}
             count={pagesCount}
             variant="outlined"
             onChange={(event, page) => setCurrentPage(page)}
