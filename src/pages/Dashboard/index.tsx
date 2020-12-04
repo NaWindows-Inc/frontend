@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import Header from '../../components/Header'
 import Routes from '../../constants/routes'
 import withAuthorization from '../../hocs'
-import { Container, Divider, Paper, Typography } from '@material-ui/core'
+import { Divider, Paper, Typography } from '@material-ui/core'
 import DeviceSkeleton from '../../components/DeviceSkeleton'
 import Device from '../../components/Device'
 import { getData } from '../../services/dataAPI'
@@ -11,6 +10,7 @@ import { BleData } from '../../typings'
 import styles from './style.module.scss'
 import { Pagination } from '@material-ui/lab'
 import ToggleCount from '../../components/ToggleCount'
+import Layout from '../../components/Layout'
 
 const COUNT = 5
 
@@ -68,34 +68,31 @@ const Dashboard = () => {
   }
 
   return (
-    <div>
-      <Header />
-      <Container maxWidth="md">
-        <Paper className={styles.paper} elevation={3}>
-          <div className={styles.headingRow}>
-            <Typography variant="h4" component="h2" className={styles.title}>
-              Devices
-            </Typography>
-            <ToggleCount
-              countValue={count}
-              firstValue={5}
-              secondValue={10}
-              thirdValue={15}
-              handleChangeCount={onCountChange}
-            />
-          </div>
-          <Divider className={styles.divider} />
-          {isLoading ? skeleton : mappedData}
-          <div className={styles.pagination}>
-            <Pagination
-              count={pagesCount}
-              variant="outlined"
-              onChange={(event, page) => setCurrentPage(page)}
-            />
-          </div>
-        </Paper>
-      </Container>
-    </div>
+    <Layout>
+      <Paper className={styles.paper} elevation={3}>
+        <div className={styles.headingRow}>
+          <Typography variant="h4" component="h2" className={styles.title}>
+            Devices
+          </Typography>
+          <ToggleCount
+            countValue={count}
+            firstValue={5}
+            secondValue={10}
+            thirdValue={15}
+            handleChangeCount={onCountChange}
+          />
+        </div>
+        <Divider className={styles.divider} />
+        {isLoading ? skeleton : mappedData}
+        <div className={styles.pagination}>
+          <Pagination
+            count={pagesCount}
+            variant="outlined"
+            onChange={(event, page) => setCurrentPage(page)}
+          />
+        </div>
+      </Paper>
+    </Layout>
   )
 }
 
