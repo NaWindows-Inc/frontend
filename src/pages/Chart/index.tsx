@@ -3,7 +3,7 @@ import { Paper, Theme, useTheme } from '@material-ui/core'
 
 import Layout from '../../components/Layout'
 
-import withAuthorization from '../../hocs'
+import withAuthorization from '../../hocs/withAuthorization'
 import Routes from '../../constants/routes'
 
 import styles from './style.module.scss'

@@ -1,4 +1,5 @@
-import { combineReducers, createStore } from 'redux'
+import { combineReducers, createStore, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
 import appReducer from './app'
 import authReducer from './auth'
 
@@ -11,7 +12,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
 })
 
-const store = createStore(rootReducer, persistedState)
+const store = createStore(rootReducer, persistedState, applyMiddleware(thunk))
 
 store.subscribe(() => {
   localStorage.setItem(
