@@ -27,7 +27,15 @@
       }
     }
 
+    .bottomBlock {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
     .link {
+      margin-right: 5%;
+
       &:hover {
         text-decoration: underline;
       }
