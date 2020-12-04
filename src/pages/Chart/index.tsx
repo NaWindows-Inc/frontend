@@ -1,5 +1,10 @@
 import React, { useEffect, useRef } from 'react'
-import { Theme, useTheme } from '@material-ui/core'
+import { Paper, Theme, useTheme } from '@material-ui/core'
+
+import Layout from '../../components/Layout'
+
+import withAuthorization from '../../hocs'
+import Routes from '../../constants/routes'
 
 import styles from './style.module.scss'
 
@@ -141,22 +146,28 @@ const Chart = () => {
   }, [canvasRef, theme])
 
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <canvas
-        ref={canvasRef}
-        height="400"
-        width="650"
-        className={styles.canvas}
-      ></canvas>
-    </div>
+    <Layout>
+      <Paper className={styles.paper} elevation={3}>
+        <div
+          style={{
+            height: '80vh',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <canvas
+            ref={canvasRef}
+            height="400"
+            width="650"
+            className={styles.canvas}
+          ></canvas>
+        </div>
+      </Paper>
+    </Layout>
   )
 }
 
-export default Chart
+const condition = (isAuth: boolean) => !isAuth
+
+export default withAuthorization(condition, Routes.SIGN_IN)(Chart)
