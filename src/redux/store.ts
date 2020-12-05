@@ -17,7 +17,10 @@ const store = createStore(rootReducer, persistedState, applyMiddleware(thunk))
 store.subscribe(() => {
   localStorage.setItem(
     'reduxState',
-    JSON.stringify({ auth: store.getState().auth }),
+    JSON.stringify({
+      auth: store.getState().auth,
+      app: { theme: store.getState().app.theme },
+    }),
   )
 })
 
