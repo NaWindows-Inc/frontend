@@ -8,6 +8,7 @@ import withAuthorization from '../../hocs/withAuthorization'
 import Routes from '../../constants/routes'
 
 import styles from './style.module.scss'
+import ChartForm from './form'
 
 const Chart = () => {
   const theme = useTheme()
@@ -38,15 +39,13 @@ const Chart = () => {
   return (
     <Layout>
       <Paper className={styles.paper} elevation={3}>
-        <div
-          style={{
-            height: '80vh',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Canvas dataSet={dataSet} theme={theme} />
+        <div className={styles.canvasWrapper}>
+          <div className={styles.canvas}>
+            <Canvas dataSet={dataSet} theme={theme} />
+          </div>
+        </div>
+        <div className={styles.formWrapper}>
+          <ChartForm />
         </div>
       </Paper>
     </Layout>

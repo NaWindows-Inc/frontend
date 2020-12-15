@@ -112,7 +112,9 @@ const Canvas = ({ dataSet, theme }: Props) => {
   return (
     <canvas
       ref={canvasRef}
-      style={{ backgroundColor: theme.palette.background.paper }}
+      style={{
+        backgroundColor: theme.palette.background.paper,
+      }}
     ></canvas>
   )
 }
