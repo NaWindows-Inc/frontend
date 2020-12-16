@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { Theme } from '@material-ui/core'
+import { placeholder3 } from '../../constants/placeholders'
 
 function plotData(dataSet: any, context: any, sections: any, xScale: any) {
   context.beginPath()
@@ -10,22 +11,31 @@ function plotData(dataSet: any, context: any, sections: any, xScale: any) {
   context.stroke()
 }
 
+function compare(a1: number[], a2: number[]) {
+  return a1.length === a2.length && a1.every((v: any, i: number) => v === a2[i])
+}
+
 const renderPlot = (
   canvas: HTMLCanvasElement,
   context: CanvasRenderingContext2D,
   dataSet: {
-    data1: Array<number>
-    data2: Array<number>
-    data3: Array<number>
+    d1: Array<number>
+    d2: Array<number>
+    d3: Array<number>
   },
   theme: Theme,
 ) => {
+  const { d1, d2, d3 } = dataSet
+
   const firstColor = theme.palette.success.main
   const secondColor = theme.palette.warning.main
   const thirdColor = theme.palette.info.main
 
   // Values for the Data Plot
-  const { data1, data2, data3 } = dataSet
+  const data1 = d1.length > 1 ? d1 : placeholder3
+  const data2 = d2.length > 1 ? d2 : placeholder3
+  const data3 =
+    d3.length > 1 && !compare(d3, d1) && !compare(d3, d1) ? d3 : placeholder3
 
   // sections = 12
   const sections = Math.max(data1.length, data2.length, data3.length)
@@ -79,15 +89,20 @@ const renderPlot = (
 
   // Color of each dataplot items
   context.strokeStyle = firstColor
-  plotData(data1, context, sections, xScale)
+  d1.length > 1 && plotData(data1, context, sections, xScale)
   context.strokeStyle = secondColor
-  plotData(data2, context, sections, xScale)
+  d2.length > 1 &&
+    !compare(d2, d1) &&
+    plotData(data2, context, sections, xScale)
   context.strokeStyle = thirdColor
-  plotData(data3, context, sections, xScale)
+  d3.length > 1 &&
+    !compare(d3, d2) &&
+    !compare(d3, d1) &&
+    plotData(data3, context, sections, xScale)
 }
 
 interface Props {
-  dataSet: { data1: number[]; data2: number[]; data3: number[] }
+  dataSet: { d1: number[]; d2: number[]; d3: number[] }
   theme: Theme
 }
 

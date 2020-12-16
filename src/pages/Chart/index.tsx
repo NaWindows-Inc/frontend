@@ -1,40 +1,80 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Paper, useTheme } from '@material-ui/core'
 
 import Layout from '../../components/Layout'
 import Canvas from '../../components/Canvas'
+import ChartForm, { FormValues } from './form'
 
 import withAuthorization from '../../hocs/withAuthorization'
+import { getDataByMac } from '../../services/dataAPI'
 import Routes from '../../constants/routes'
 
 import styles from './style.module.scss'
-import ChartForm from './form'
+
+interface DataSet {
+  d1: number[]
+  d2: number[]
+  d3: number[]
+}
 
 const Chart = () => {
+  const [firstMac, setFirstMac] = useState<string>('')
+  const [secondMac, setSecondMac] = useState<string>('')
+  const [thirdMac, setThirdMac] = useState<string>('')
+  const [firstMacData, setFirstMacData] = useState<number[]>([])
+  const [secondMacData, setSecondMacData] = useState<number[]>([])
+  const [thirdMacData, setThirdMacData] = useState<number[]>([])
+  const [dataSet, setDataSet] = useState<DataSet>({
+    d1: [],
+    d2: [],
+    d3: [],
+  })
   const theme = useTheme()
 
-  const Apple = [
-    -100,
-    -102,
-    -87,
-    -90,
-    -100,
-    -123,
-    -100,
-    -90,
-    -87,
-    -91,
-    -93,
-    -88,
-  ]
-  const Samsung = [-30, -50, -70, -80, -90, -100, -95, -91, -85, -92, -99, -130]
-  const Nokia = [-20, -10, -20, -25, -40, -5, -10, -28, -30, -43, -65, -80]
+  const token = localStorage.getItem('token')
 
-  const dataSet = {
-    data1: Apple,
-    data2: Samsung,
-    data3: Nokia,
+  useEffect(() => {
+    const fetchData = async (
+      mac: string,
+      setData: React.Dispatch<React.SetStateAction<number[]>>,
+    ) => {
+      if (mac) {
+        const result = await getDataByMac(token!, 12, mac)
+
+        if (result && result.items) {
+          setData(result.items.map((item) => item.level))
+        }
+      } else {
+        setData([])
+      }
+    }
+
+    fetchData(firstMac, setFirstMacData)
+    fetchData(secondMac, setSecondMacData)
+    fetchData(thirdMac, setThirdMacData)
+
+    return () => {}
+  }, [token, firstMac, secondMac, thirdMac])
+
+  const handleSubmit = (values: FormValues) => {
+    setFirstMac(values.firstMac)
+    setSecondMac(values.secondMac)
+    setThirdMac(values.thirdMac)
   }
+
+  useEffect(() => {
+    const fMac = firstMacData.slice(0, 12)
+    const sMac = secondMacData.slice(0, 12)
+    const tMac = thirdMacData.slice(0, 12)
+
+    const dataSet = {
+      d1: fMac.length > 1 ? fMac : [],
+      d2: sMac.length > 1 ? sMac : [],
+      d3: tMac.length > 1 ? tMac : [],
+    }
+
+    setDataSet(dataSet)
+  }, [firstMacData, secondMacData, thirdMacData])
 
   return (
     <Layout>
@@ -45,7 +85,7 @@ const Chart = () => {
           </div>
         </div>
         <div className={styles.formWrapper}>
-          <ChartForm />
+          <ChartForm handleSubmit={handleSubmit} />
         </div>
       </Paper>
     </Layout>

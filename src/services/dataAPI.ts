@@ -25,4 +25,27 @@ const getData = async (
   return { ...data }
 }
 
-export { getData }
+const getDataByMac = async (
+  token: string,
+  count: number,
+  mac: string,
+): Promise<GetDataResponse> => {
+  const response = await fetch(
+    `${API_URL}/api/bledata/?count=${count}&page=1`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'x-access-token': token,
+      },
+      body: JSON.stringify({
+        mac: mac,
+      }),
+    },
+  )
+  const data = await response.json()
+
+  return { ...data }
+}
+
+export { getData, getDataByMac }
