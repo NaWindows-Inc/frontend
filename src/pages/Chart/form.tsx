@@ -43,7 +43,7 @@ const ChartForm = (props: IProps) => {
             ></div>
             <TextField
               id="firstMac"
-              placeholder="AA-BB-CC-DD-EE-FF"
+              placeholder="AA:BB:CC:DD:EE:FF"
               label="MAC-address"
               variant="outlined"
               onChange={handleChange}
@@ -57,7 +57,7 @@ const ChartForm = (props: IProps) => {
             ></div>
             <TextField
               id="secondMac"
-              placeholder="AA-BB-CC-DD-EE-FF"
+              placeholder="AA:BB:CC:DD:EE:FF"
               label="MAC-address"
               variant="outlined"
               onChange={handleChange}
@@ -71,7 +71,7 @@ const ChartForm = (props: IProps) => {
             ></div>
             <TextField
               id="thirdMac"
-              placeholder="AA-BB-CC-DD-EE-FF"
+              placeholder="AA:BB:CC:DD:EE:FF"
               label="MAC-address"
               variant="outlined"
               onChange={handleChange}
