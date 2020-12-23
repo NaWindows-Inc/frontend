@@ -3,7 +3,7 @@ import AuthPage from '../../components/AuthPage'
 import Routes from '../../constants/routes'
 import SignUpForm from './SignUpForm'
 import { FormikHelpers } from 'formik'
-import withAuthorization from '../../hocs'
+import withAuthorization from '../../hocs/withAuthorization'
 import { signUp } from '../../services/authAPI'
 import { SignUpFormValues } from '../../typings'
 

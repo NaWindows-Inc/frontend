@@ -1,7 +1,10 @@
+import { PaletteType } from '@material-ui/core'
+
 import { Action, ActionType } from './types'
 
 let initialState = {
   initialized: false,
+  theme: 'dark' as PaletteType,
 }
 type InitialState = typeof initialState
 
@@ -11,6 +14,11 @@ const appReducer = (state = initialState, action: Action): InitialState => {
       return {
         ...state,
         initialized: true,
+      }
+    case ActionType.SET_THEME:
+      return {
+        ...state,
+        theme: action.theme,
       }
     default:
       return state

@@ -1,0 +1,54 @@
+.paper {
+  padding: 2rem 1rem;
+}
+
+.canvasWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: auto;
+}
+
+.canvas {
+  width: 100%;
+  padding: 0 1rem;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-top: 2rem;
+
+  .submitButton {
+    width: 100%;
+    max-width: 10rem;
+    margin-top: 25px;
+    padding: 0.85rem;
+  }
+}
+
+.formGrid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-rows: auto;
+  grid-gap: 25px;
+  align-items: center;
+  justify-content: space-between;
+
+  > label {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.line {
+  width: 3rem;
+  border: 1px solid red;
+  height: 0;
+  margin-right: 0.5rem;
+}

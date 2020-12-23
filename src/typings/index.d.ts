@@ -14,3 +14,10 @@ export interface SignInFormValues {
 export interface SignUpFormValues extends SignInFormValues {
   username: string
 }
+
+
+export interface BleData {
+  mac: string
+  time: string
+  level: number
+}

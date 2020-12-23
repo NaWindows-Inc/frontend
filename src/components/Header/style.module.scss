@@ -6,7 +6,7 @@
   display: flex;
   align-items: center;
 
-  & > :first-child {
-    padding-right: 1rem;
+  & > * {
+    padding: 0 1rem;
   }
 }
