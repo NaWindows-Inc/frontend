@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react'
 import { Theme } from '@material-ui/core'
-import { placeholder3 } from '../../constants/placeholders'
 
 function plotData(dataSet: any, context: any, sections: any, xScale: any) {
   context.beginPath()
@@ -25,26 +24,17 @@ const renderPlot = (
   },
   theme: Theme,
 ) => {
+  // Values for the Data Plot
   const { d1, d2, d3 } = dataSet
-
+  
   const firstColor = theme.palette.success.main
   const secondColor = theme.palette.warning.main
   const thirdColor = theme.palette.info.main
+  
+  const Val_max = 0
+  const Val_min = -130
 
-  // Values for the Data Plot
-  const data1 = d1.length > 1 ? d1 : placeholder3
-  const data2 = d2.length > 1 ? d2 : placeholder3
-  const data3 =
-    d3.length > 1 && !compare(d3, d1) && !compare(d3, d1) ? d3 : placeholder3
-
-  // sections = 12
-  const sections = Math.max(data1.length, data2.length, data3.length)
-
-  // Val_max = 130
-  // Val_min = -40
-  const Val_max = Math.max(...data1, ...data2, ...data3) + 5
-  const Val_min = Math.min(...data1, ...data2, ...data3) - 5
-
+  const sections = 12
   const stepSize = 10
   const columnSize = 10
   const rowSize = 50
@@ -89,16 +79,14 @@ const renderPlot = (
 
   // Color of each dataplot items
   context.strokeStyle = firstColor
-  d1.length > 1 && plotData(data1, context, sections, xScale)
+  d1.length > 1 && plotData(d1, context, sections, xScale)
   context.strokeStyle = secondColor
-  d2.length > 1 &&
-    !compare(d2, d1) &&
-    plotData(data2, context, sections, xScale)
+  d2.length > 1 && !compare(d2, d1) && plotData(d2, context, sections, xScale)
   context.strokeStyle = thirdColor
   d3.length > 1 &&
     !compare(d3, d2) &&
     !compare(d3, d1) &&
-    plotData(data3, context, sections, xScale)
+    plotData(d3, context, sections, xScale)
 }
 
 interface Props {
