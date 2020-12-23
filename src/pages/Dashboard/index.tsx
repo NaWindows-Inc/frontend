@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Routes from '../../constants/routes'
-import withAuthorization from '../../hocs'
+import withAuthorization from '../../hocs/withAuthorization'
 import { Divider, Paper, Typography } from '@material-ui/core'
 import DeviceSkeleton from '../../components/DeviceSkeleton'
 import Device from '../../components/Device'
@@ -86,6 +86,7 @@ const Dashboard = () => {
         {isLoading ? skeleton : mappedData}
         <div className={styles.pagination}>
           <Pagination
+            page={currentPage}
             count={pagesCount}
             variant="outlined"
             onChange={(event, page) => setCurrentPage(page)}

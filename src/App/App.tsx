@@ -1,9 +1,11 @@
+import { useTheme } from '@material-ui/core'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 import LayoutPreloader from '../components/LayoutPreloader'
 import Routes from '../constants/routes'
-import { Dashboard, SignIn, SignUp } from '../pages'
+import withThemeProvider from '../hocs/withThemeProvider'
+import { Dashboard, SignIn, SignUp, Chart } from '../pages'
 import { initializeApp } from '../redux/app/actions'
 import { signOutUser } from '../redux/auth/actions'
 import { checkToken } from '../services/authAPI'
@@ -12,6 +14,7 @@ import './App.scss'
 const App = () => {
   const initialized = useSelector((state) => state.app.initialized)
   const dispatch = useDispatch()
+  const theme = useTheme()
 
   useEffect(() => {
     const effect = async () => {
@@ -39,9 +42,13 @@ const App = () => {
   }
 
   return (
-    <div className="App">
+    <div
+      className="App"
+      style={{ backgroundColor: theme.palette.background.default }}
+    >
       <Switch>
         <Route exact path={Routes.DASHBOARD} component={Dashboard} />
+        <Route exact path={Routes.CHART} component={Chart} />
         <Route exact path={Routes.SIGN_IN} component={SignIn} />
         <Route exact path={Routes.SIGN_UP} component={SignUp} />
       </Switch>
@@ -49,4 +56,4 @@ const App = () => {
   )
 }
 
-export default App
+export default withThemeProvider(App)

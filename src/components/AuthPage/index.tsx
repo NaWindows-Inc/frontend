@@ -1,7 +1,20 @@
-import { Container, makeStyles, Paper, Typography } from '@material-ui/core'
+import {
+  Container,
+  IconButton,
+  makeStyles,
+  Paper,
+  Tooltip,
+  Typography,
+} from '@material-ui/core'
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import Brightness4Icon from '@material-ui/icons/Brightness4'
+import Brightness7Icon from '@material-ui/icons/Brightness7'
+
 import Snackbar from '../Snackbar'
+
+import { toggleTheme } from '../../redux/app/actions'
 
 import styles from './style.module.scss'
 
@@ -38,6 +51,12 @@ const AuthPage: React.FC<Props> = ({
   alertHandleClose,
 }) => {
   const classes = useStyles()
+  const dispatch = useDispatch()
+  const themeType = useSelector((state) => state.app.theme)
+
+  const handleToggleTheme = () => {
+    dispatch(toggleTheme())
+  }
 
   return (
     <div className={styles.authPage}>
@@ -51,9 +70,24 @@ const AuthPage: React.FC<Props> = ({
             {title}
           </Typography>
           {children}
-          <Link to={linkTo} className={`${styles.link} ${classes.link}`}>
-            {linkMessage}
-          </Link>
+          <div className={styles.bottomBlock}>
+            <Link to={linkTo} className={`${styles.link} ${classes.link}`}>
+              {linkMessage}
+            </Link>
+            <Tooltip
+              title="Toggle light/dark theme"
+              aria-label="toggle light/dark theme"
+            >
+              <IconButton
+                aria-label="toggle light/dark theme"
+                onClick={handleToggleTheme}
+                color="primary"
+              >
+                {themeType === 'light' && <Brightness4Icon />}
+                {themeType === 'dark' && <Brightness7Icon />}
+              </IconButton>
+            </Tooltip>
+          </div>
         </Paper>
       </Container>
       <Snackbar
